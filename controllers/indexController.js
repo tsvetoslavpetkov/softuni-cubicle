@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const cubeService = require('../services/cubeService.js')
+const authController = require('./authController');
 
 const renderHome = async (req, res) => {
     const cubes = await cubeService.getAll()
@@ -15,7 +16,6 @@ const search = async (req, res) => {
     res.render('index', { cubes })
 }
 
-
 const renderDetails = async (req, res) => {
     const cube = await cubeService.getOne(req.params.id)
     const accessories = cube.accessories;
@@ -23,6 +23,8 @@ const renderDetails = async (req, res) => {
 }
 
 const renderAbout = (req, res) => { res.render('about') }
+
+router.use(authController);
 
 router.get('/', renderHome)
 router.get('/about', renderAbout)
