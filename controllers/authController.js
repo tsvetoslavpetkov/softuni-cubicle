@@ -18,10 +18,12 @@ const renderLogin = (req, res) => {
 }
 
 const login = async (req, res) => {
-    let areCredentialsValid = await authService.checkCredentials(req.body.username, req.body.password)
-    areCredentialsValid
-    ? res.redirect('/')
-    : console.error('Username or password are not valid;')
+    let token = await authService.loginUser(req.body.username, req.body.password);
+    console.log(token);
+    if(token){
+        res.cookie('cubicle_auth_token', token)
+        res.redirect('/')
+    }
 }
 
 const logout = (req, res) => {
