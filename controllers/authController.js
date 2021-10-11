@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const cookieParser = require('cookie-parser');
 const authService = require('../services/authService.js')
 
 
@@ -26,8 +27,12 @@ const login = async (req, res) => {
 }
 
 const logout = (req, res) => {
-
+res.clearCookie('cubicle_auth_token')
+res.redirect('/login')
 }
+
+router.use(cookieParser())
+router.get('/logout', logout);
 
 router.get('/login', renderLogin);
 router.post('/login', login);
