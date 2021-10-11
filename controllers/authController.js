@@ -19,7 +19,6 @@ const renderLogin = (req, res) => {
 
 const login = async (req, res) => {
     let token = await authService.loginUser(req.body.username, req.body.password);
-    console.log(token);
     if(token){
         res.cookie('cubicle_auth_token', token)
         res.redirect('/')

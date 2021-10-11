@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const auth = require('../middlewares/authMiddleware.js')
 
 const cubeService = require('../services/cubeService.js')
 const accessoryService = require('../services/accessoryService.js')
@@ -21,10 +22,10 @@ const createAccessory = (req, res) => {
     res.redirect('/')
 };
 
-router.get('/cube', renderCreateCube);
-router.post('/cube', createCube)
+router.get('/cube', auth, renderCreateCube);
+router.post('/cube', auth, createCube)
 
-router.get('/accessory', renderCreateAccessory);
-router.post('/accessory', createAccessory)
+router.get('/accessory',auth, renderCreateAccessory);
+router.post('/accessory',auth, createAccessory)
 
 module.exports = router;

@@ -1,6 +1,9 @@
 const router = require('express').Router();
+let cookieParser = require('cookie-parser')
+
+const authController = require('./authController.js');
 const cubeService = require('../services/cubeService.js')
-const authController = require('./authController');
+
 
 const renderHome = async (req, res) => {
     const cubes = await cubeService.getAll()
@@ -24,8 +27,9 @@ const renderDetails = async (req, res) => {
 
 const renderAbout = (req, res) => { res.render('about') }
 
-router.use(authController);
+router.use(cookieParser())
 
+router.use(authController);
 router.get('/', renderHome)
 router.get('/about', renderAbout)
 router.get('/details/:id', renderDetails)
