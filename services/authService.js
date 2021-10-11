@@ -22,7 +22,6 @@ const createUser = (username, password) => {
             username,
             password
         })
-
         return user.save()
     })
 }
