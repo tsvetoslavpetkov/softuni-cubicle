@@ -4,8 +4,16 @@ const renderRegister = (req, res) => {
     res.render('register')
 }
 
+const register = (req, res) => {
+
+}
+
 const renderLogin = (req, res) => {
     res.render('login')
+}
+
+const login = (req, res) => {
+
 }
 
 const logout = (req, res) => {
