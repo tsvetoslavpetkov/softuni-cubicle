@@ -10,7 +10,6 @@ const hash = (password) => {
 
 const loginUser = async (username, password) => {
     let user = await (User.findOne({ username }));
-    console.log(user);
     if (user) {
         let isPasswordValid = await bcrypt.compare(password, user.password);
         return isPasswordValid ? createToken(user) : false ;
