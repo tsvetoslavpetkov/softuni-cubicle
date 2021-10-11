@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 const renderRegister = (req, res) => {
-
+    res.render('register')
 }
 
 const renderLogin = (req, res) => {
