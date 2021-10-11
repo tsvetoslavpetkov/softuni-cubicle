@@ -7,7 +7,7 @@ const renderRegister = (req, res) => {
 }
 
 const register = (req, res) => {
-    if(req.body.password == req.body.repeatPassword){
+    if (req.body.password == req.body.repeatPassword) {
         authService.createUser(req.body.username, req.body.password)
     }
     res.redirect('/login')
@@ -17,8 +17,11 @@ const renderLogin = (req, res) => {
     res.render('login')
 }
 
-const login = (req, res) => {
-
+const login = async (req, res) => {
+    let areCredentialsValid = await authService.checkCredentials(req.body.username, req.body.password)
+    areCredentialsValid
+    ? res.redirect('/')
+    : console.error('Username or password are not valid;')
 }
 
 const logout = (req, res) => {
