@@ -30,7 +30,6 @@ const renderAbout = (req, res) => { res.render('about') }
 
 router.use(cookieParser())
 router.use(authController);
-router.use(auth);
 router.get('/', renderHome)
 router.get('/about', renderAbout)
 router.get('/details/:id', renderDetails)
