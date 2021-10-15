@@ -11,6 +11,7 @@ const auth = async (req, res, next) => {
         let user = await User.findById(decodedToken.id)
         if (user) {
             res.user = user;
+            res.locals.user = user;
             next();
         }
     } else {

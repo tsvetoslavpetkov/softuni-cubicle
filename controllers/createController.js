@@ -24,7 +24,6 @@ const createAccessory = (req, res) => {
 
 router.get('/cube', auth, renderCreateCube);
 router.post('/cube', auth, createCube)
-
 router.get('/accessory',auth, renderCreateAccessory);
 router.post('/accessory',auth, createAccessory)
 
