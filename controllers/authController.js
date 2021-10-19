@@ -20,18 +20,19 @@ const renderLogin = (req, res) => {
 }
 
 const login = async (req, res) => {
-
     const { username, password } = req.body;
 
-    let token = await authService.loginUser(username, password);
-    console.log(token);
+    let token = await authService.loginUser(username, password);;
 
-    res.cookie(TOKEN_COOKIE_NAME, token)
+    res.cookie(TOKEN_COOKIE_NAME, token, {
+        httpOnly: true,
+    })
+    
     res.redirect('/')
 }
 
 const logout = (req, res) => {
-    res.clearCookie('cubicle_auth_token')
+    res.clearCookie(TOKEN_COOKIE_NAME)
     res.redirect('/login')
 }
 
