@@ -26,6 +26,7 @@ const renderDetails = async (req, res) => {
 const renderAbout = (req, res) => { res.render('about') }
 
 router.get('/', renderHome)
+router.use(authController);
 router.get('/about', renderAbout)
 router.get('/details/:id', renderDetails)
 router.get('/search', search)

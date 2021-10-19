@@ -1,22 +1,29 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User.js')
-const jwt = require('jsonwebtoken');
-
-const constants = require('../config/constants.js');
+const { SECRET } = require('../config/constants.js');
+const { jwtSign } = require('../utils/jwtUtils.js')
 
 const hash = (password) => {
     return bcrypt.hash(password, 10)
 }
 
 const loginUser = async (username, password) => {
-    let user = await (User.findOne({ username }));
-    if (user) {
-        let isPasswordValid = await bcrypt.compare(password, user.password);
-        return isPasswordValid ? createToken(user) : false ;
+    let user = await User.findOne({ username })
+        
+    if (!user) {
+        throw {message: 'Invalid username or password'}
     }
+    
+    let isPasswordValid = await bcrypt.compare(password, user.password);
+   
+    if(!isPasswordValid){
+        throw {message: 'Invalid username or password'}
+    }
+    
+    return createToken(user)    
 }
 
-const createUser = (username, password) => {
+const registerUser = (username, password) => {
     hash(password).then(password => {
         let user = new User({
             username,
@@ -27,13 +34,14 @@ const createUser = (username, password) => {
 }
 
 const createToken = (user) => {
-    return jwt.sign(
-        { id: user._id, username: user.username },
-        constants.SECRET,
-        { expiresIn: '5h' })
+    let payload = {
+        id: user._id,
+        username: user.username
+    }
+    return jwtSign(payload, SECRET);
 }
 
 module.exports = {
-    createUser,
+    registerUser,
     loginUser
 }

@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const cookieParser = require('cookie-parser');
 const authService = require('../services/authService.js')
+const { TOKEN_COOKIE_NAME } = require('../config/constants.js')
 
 
 const renderRegister = (req, res) => {
@@ -9,7 +10,7 @@ const renderRegister = (req, res) => {
 
 const register = (req, res) => {
     if (req.body.password == req.body.repeatPassword) {
-        authService.createUser(req.body.username, req.body.password)
+        authService.registerUser(req.body.username, req.body.password)
     }
     res.redirect('/login')
 }
@@ -19,17 +20,19 @@ const renderLogin = (req, res) => {
 }
 
 const login = async (req, res) => {
-    let token = await authService.loginUser(req.body.username, req.body.password);
-    if(token){
-        res.cookie('cubicle_auth_token', token)
-        res.locals.user = true;
-        res.redirect('/')
-    }
+
+    const { username, password } = req.body;
+
+    let token = await authService.loginUser(username, password);
+    console.log(token);
+
+    res.cookie(TOKEN_COOKIE_NAME, token)
+    res.redirect('/')
 }
 
 const logout = (req, res) => {
-res.clearCookie('cubicle_auth_token')
-res.redirect('/login')
+    res.clearCookie('cubicle_auth_token')
+    res.redirect('/login')
 }
 
 router.use(cookieParser())
