@@ -1,13 +1,13 @@
 const indexController = require('../controllers/indexController.js')
 const createController = require('../controllers/createController.js')
 const attachController = require('../controllers/attachController.js')
-const auth = require('../middlewares/authMiddleware.js')
+const {auth, isAuth} = require('../middlewares/authMiddleware.js')
 
 module.exports = (app) => {
-    app.use(auth)
+    app.use(auth);
     app.use('/', indexController);
-    app.use('/attach', attachController);
-    app.use('/create', createController);
+    app.use('/attach', isAuth, attachController);
+    app.use('/create', isAuth, createController);
     app.get('/*', (req, res) => {
         res.render('404')
     })

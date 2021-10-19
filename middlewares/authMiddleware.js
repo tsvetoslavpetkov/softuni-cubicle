@@ -1,7 +1,7 @@
 const { jwtVerify } = require('../utils/jwtUtils.js')
 const { SECRET, TOKEN_COOKIE_NAME } = require('../config/constants.js')
 
-exports.auth = function (req, res, next){
+exports.auth = (req, res, next) => {
     let token = req.cookies[TOKEN_COOKIE_NAME];
 
     if (!token) {
