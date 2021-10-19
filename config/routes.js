@@ -1,9 +1,10 @@
 const indexController = require('../controllers/indexController.js')
 const createController = require('../controllers/createController.js')
 const attachController = require('../controllers/attachController.js')
+const auth = require('../middlewares/authMiddleware.js')
 
 module.exports = (app) => {
-    app.use(auth);
+    app.use(auth)
     app.use('/', indexController);
     app.use('/attach', attachController);
     app.use('/create', createController);

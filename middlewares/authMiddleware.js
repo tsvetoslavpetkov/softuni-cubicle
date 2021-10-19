@@ -1,22 +1,28 @@
-const jwt = require('jsonwebtoken')
-const { SECRET } = require('../config/constants.js')
+const { jwtVerify } = require('../utils/jwtUtils.js')
+const { SECRET, TOKEN_COOKIE_NAME } = require('../config/constants.js')
 
-const auth = async (req, res, next) => {
-    let token = req.cookies['cubicle_auth_token'];
+exports.auth = function (req, res, next){
+    let token = req.cookies[TOKEN_COOKIE_NAME];
 
     if (!token) {
         return next();
     }
 
-    jwt.verify(token, SECRET, function (err, decodedToken) {
-        if (err) {
+    jwtVerify(token, SECRET)
+        .then(decodedToken => {
+            req.user = decodedToken;
+            res.locals.user = decodedToken;
+            next();
+        })
+        .catch(() => {
             return res.status(401).redirect('/login')
-        }
+        })
+};
 
-        req.user = decodedToken;
-        res.locals.user = decodedToken;
-        next();
-    });
-}
+exports.isAuth = (req, res, next) => {
+    if(!req.user){
+        return res.status(401).redirect('/login')
+    }
 
-module.exports = auth;
+    next();
+};
