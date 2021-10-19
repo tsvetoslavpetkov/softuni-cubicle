@@ -5,7 +5,8 @@ exports.auth = (req, res, next) => {
     let token = req.cookies[TOKEN_COOKIE_NAME];
 
     if (!token) {
-        return next();
+        next();
+        return
     }
 
     jwtVerify(token, SECRET)
@@ -14,7 +15,8 @@ exports.auth = (req, res, next) => {
             res.locals.user = decodedToken;
             next();
         })
-        .catch(() => {
+        .catch((err) => {
+            console.log(err);
             return res.status(401).redirect('/login')
         })
 };

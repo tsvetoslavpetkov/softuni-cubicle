@@ -15,8 +15,7 @@ exports.jwtSign = function (payload, secret) {
     return promise;
 }
 
-exports.jwtVerify = function () {
-
+exports.jwtVerify = function (token, secret) {
     let promise = new Promise((resolve, reject) => {
         jwt.verify(token, secret, function (err, payload) {
             if(err){

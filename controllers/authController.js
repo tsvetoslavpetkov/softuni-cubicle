@@ -2,6 +2,7 @@ const router = require('express').Router();
 const cookieParser = require('cookie-parser');
 const authService = require('../services/authService.js')
 const { TOKEN_COOKIE_NAME } = require('../config/constants.js')
+const { isAuth } = require('../middlewares/authMiddleware.js')
 
 
 const renderRegister = (req, res) => {
@@ -22,12 +23,12 @@ const renderLogin = (req, res) => {
 const login = async (req, res) => {
     const { username, password } = req.body;
 
-    let token = await authService.loginUser(username, password);;
+    let token = await authService.loginUser(username, password);
 
     res.cookie(TOKEN_COOKIE_NAME, token, {
         httpOnly: true,
     })
-    
+
     res.redirect('/')
 }
 
@@ -37,7 +38,7 @@ const logout = (req, res) => {
 }
 
 router.use(cookieParser())
-router.get('/logout', logout);
+router.get('/logout', isAuth, logout);
 
 router.get('/login', renderLogin);
 router.post('/login', login);
