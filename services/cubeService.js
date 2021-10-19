@@ -1,9 +1,16 @@
 const Cube = require('../models/Cube.js')
-const Accessory = require('../models/Accessory.js')
+const Accessory = require('../models/Accessory.js');
 
 function create(cubeData) {
     let cube = new Cube(cubeData)
     return cube.save()
+}
+
+function editOne(id, cubeData) {
+   return Cube.findByIdAndUpdate(id, cubeData, {runValidators: true})
+}
+function deleteOne(id) {
+   return Cube.findByIdAndDelete(id)
 }
 
 function getAll() {
@@ -43,5 +50,7 @@ module.exports = {
     getAll,
     getOne,
     attachAccessory,
-    search
+    search,
+    editOne,
+    deleteOne
 }

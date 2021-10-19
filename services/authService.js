@@ -33,6 +33,10 @@ const registerUser = (username, password) => {
     })
 }
 
+const getUserId = (username) => {
+    return User.findOne({username})
+}
+
 const createToken = (user) => {
     let payload = {
         id: user._id,
@@ -43,5 +47,6 @@ const createToken = (user) => {
 
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    getUserId
 }

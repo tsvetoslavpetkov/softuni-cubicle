@@ -23,7 +23,7 @@ const renderLogin = (req, res) => {
 const login = async (req, res) => {
     const { username, password } = req.body;
 
-    let token = await authService.loginUser(username, password);
+    let token = await authService.loginUser(username, password, id);
 
     res.cookie(TOKEN_COOKIE_NAME, token, {
         httpOnly: true,
